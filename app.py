@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template, make_response, request
 from BluePrint_Testing import my_first_blueprint
 import random
 import time
@@ -13,9 +13,30 @@ app.register_blueprint(my_first_blueprint)
 # @my_first_blueprint.route('/')
 @app.route('/')
 def home():
-    info_about_me = "<a href='https://fsb.zobj.net/crop.php?r=On715xGxf2MyvMxF1eoHtLnInVKn6DNJuCezJBG8DDHCy8YavW7gykenvfln_OtfLZKmsHU64tmzAc1NMc3ZBu0UOG85gBf_aKXKH6U243AqD5_pa1bkxwlnTZpxLhe9O3oiQEIguwFOR24L'>Just Know Me</a>"
-    return "Welcome To The Home Page.Thanks for visiting.and also see about developer MasumBhai <br> %s" % info_about_me
+    content = "Masum Bhai is Learning Python Flask"
+    return render_template('index.html', value=content)
 
+
+@app.route('/setcookie/', methods=['POST', 'GET'])
+def set_cookie():
+    response = make_response("cookie setted")
+    response.set_cookie(key="MasumBhai's_flask_Cookie",
+                        value="I will hack into your computer in a few days,let me learn hacking first",
+                        max_age=60*60*24
+                        )
+    return response
+
+
+@app.route('/getcookie/')
+def get_cookie():
+    rsp = request.cookies.get("MasumBhai's_flask_Cookie")
+    return "The Cookie content is: "+rsp;
+
+@app.route('/delete_cookie/')
+def deleteCookie():
+    res = make_response("Cookie has been Removed,refresh your browser cookie")
+    res.set_cookie(key="MasumBhai's_flask_Cookie",max_age=0)
+    return res
 
 if __name__ == '__main__':
     # app.run(host="'0.0.0.0'", port=5000, debug=True)
