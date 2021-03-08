@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, make_response, request, session, escape
+from flask import Flask,flash, redirect, url_for, render_template, make_response, request, session, escape
 from BluePrint_Testing import my_first_blueprint
 from datetime import timedelta
 from werkzeug.exceptions import HTTPException
@@ -56,7 +56,10 @@ def login_page():
 @app.route('/logout/')
 def logout():
     # remove the username from the session if it is there
-    session.pop('userName', None)
+    if "userName" in session:
+        usr = session['userName']
+        session.pop('userName', None)
+        flash(f"{usr} , You have been Logged Out Successfully","info")
     return redirect(url_for('login_page'))
 
 
@@ -97,9 +100,6 @@ def deleteCookie():
     return render_template('Deletion_Cookies.html', value_for_deleting_cookie=res)
 
 
-# @app.register_error_handler(400, handle_bad_request)
-# def internal_server_error(e):
-#     return render_template('404.html')
 @app.errorhandler(HTTPException)
 def handle_bad_request(e):
     return render_template('404.html')

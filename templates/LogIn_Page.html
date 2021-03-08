@@ -1,6 +1,14 @@
 {% extends "Base.html" %}
 {% block title %}LogIn Page{% endblock %}
 {% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{ msg }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <div>
         <form method="POST">
             <div class="form-floating mb-3">
