@@ -1,7 +1,8 @@
-from flask import Flask,flash, redirect, url_for, render_template, make_response, request, session, escape
+from flask import Flask, flash, redirect, url_for, render_template, make_response, request, session, escape
 from BluePrint_Testing import my_first_blueprint
 from datetime import timedelta
 from werkzeug.exceptions import HTTPException
+from flask_debugtoolbar import DebugToolbarExtension
 import random
 import time
 
@@ -9,6 +10,7 @@ app = Flask(__name__)
 app.secret_key = "ILoveMasumBhai"
 app.permanent_session_lifetime = timedelta(minutes=5)
 app.debug = True
+toolbar = DebugToolbarExtension(app)
 app.register_blueprint(my_first_blueprint)
 
 
@@ -59,7 +61,7 @@ def logout():
     if "userName" in session:
         usr = session['userName']
         session.pop('userName', None)
-        flash(f"{usr} , You have been Logged Out Successfully","info")
+        flash(f"{usr} , You have been Logged Out Successfully", "info")
     return redirect(url_for('login_page'))
 
 
@@ -107,4 +109,4 @@ def handle_bad_request(e):
 
 if __name__ == '__main__':
     # app.run(host="'0.0.0.0'", port=5000, debug=True)
-    app.run(debug=True)
+    app.run(host='localhost', port=5000)
