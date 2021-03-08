@@ -1,0 +1,21 @@
+{% extends "Base.html" %}
+{% block links %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='404.css') }}">{% endblock %}
+{% block title %}404{% endblock %}
+{% block content %}
+    <div class="wrapper row2">
+        <div id="container" class="clear">
+            <section id="fof" class="clear">
+                <div class="positioned">
+                    <div class="hgroup">
+                        <h1>Congratulations</h1>
+                        <h2>You Found Our 404 Error Page</h2>
+                    </div>
+                    <p>Joke Aside<br>
+                        The Page You Requested Could Not Be Found On Our Server</p>
+                     <h2><a href="/">Go Home</a></h2>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}

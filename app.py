@@ -1,6 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, make_response, request, session, escape
 from BluePrint_Testing import my_first_blueprint
 from datetime import timedelta
+from werkzeug.exceptions import HTTPException
 import random
 import time
 
@@ -34,6 +35,7 @@ def guest_section(username):
     user_id = random.randint(1, 1000001)
     print("Guest's user id is: %d" % user_id)
     return render_template('guest_page.html', visitors=session['visits'], id=user_id, welcome=username)
+
 
 # in web browser console copy session data upto first dot and in console type: atob("that copied session")
 # Then see the Boom,Magic
@@ -93,6 +95,14 @@ def deleteCookie():
     else:
         res.set_cookie(key="MasumBhai's_flask_Cookie", max_age=0)
     return render_template('Deletion_Cookies.html', value_for_deleting_cookie=res)
+
+
+# @app.register_error_handler(400, handle_bad_request)
+# def internal_server_error(e):
+#     return render_template('404.html')
+@app.errorhandler(HTTPException)
+def handle_bad_request(e):
+    return render_template('404.html')
 
 
 if __name__ == '__main__':
